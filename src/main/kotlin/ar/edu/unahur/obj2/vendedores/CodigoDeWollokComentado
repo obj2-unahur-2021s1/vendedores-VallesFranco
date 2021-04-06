@@ -1,0 +1,56 @@
+class Ciudad {
+	const property provincia -> Provincia
+}
+
+class Provincia {
+	const property poblacion -> Int
+}
+
+class Certificacion {
+	const property esDeProducto -> Boolean
+	const property puntaje -> Int
+}
+
+class Vendedor {
+	const certificaciones = [] -> mutableListOf<Certificacion>
+
+	method esVersatil() = -> Boolean
+		certificaciones.size() >= 3
+			&& self.certificacionesDeProducto() >= 1
+			&& self.otrasCertificaciones() >= 1
+
+	method agregarCertificacion(certificacion: Certificacion) { -> Es una acción y no devuelve nada
+		certificaciones.add(certificacion)
+	}
+
+	method esFirme() = self.puntajeCertificaciones() >= 30 -> Boolean
+
+	method certificacionesDeProducto() = certificaciones.count { c => c.esDeProducto() } -> Int
+	method otrasCertificaciones() = certificaciones.count { c => !c.esDeProducto() } -> Int
+
+	method puntajeCertificaciones() = certificaciones.sum { c => c.puntaje() } -> Int
+}
+
+class VendedorFijo inherits Vendedor { -> VendedorFijo: Vendedor
+	const property ciudadOrigen -> Ciudad
+
+	method puedeTrabajarEn(ciudad: Ciudad) {
+		return ciudad == ciudadOrigen -> Boolean
+	}
+}
+
+class Viajante inherits Vendedor { -> Viajante: Vendedor
+	const property provinciasHabilitadas -> List<Provincia>
+
+	method puedeTrabajarEn(ciudad: Ciudad) {
+		return provinciasHabilitadas.contains(ciudad.provincia()) -> Boolean
+	}
+}
+
+class ComercioCorresponsal inherits Vendedor { -> ComercioCorresponsal: Vendedor
+	const property ciudades -> List<Ciudad>
+
+	method puedeTrabajarEn(ciudad: Ciudad) {
+		return ciudades.contains(ciudad) -> Boolean
+	}
+}

@@ -35,5 +35,39 @@ class VendedorTest : DescribeSpec({
         viajante.puedeTrabajarEn(villaDolores).shouldBeFalse()
       }
     }
+
+    describe("esInfluyente") {
+      it("con su única provincia habilitada") {
+        viajante.esInfluyente().shouldBeFalse()
+      }
+    }
   }
+
+  describe("Comercio Corresponsal") {
+    val buenosAires = Provincia(8000000)
+    val chubut = Provincia(900000)
+    val santaFe = Provincia(1500000)
+    val morris = Ciudad(buenosAires)
+    val laMatanza = Ciudad(buenosAires)
+    val rawson = Ciudad(chubut)
+    val rosario = Ciudad(santaFe)
+
+    val comercioCorresponsal = ComercioCorresponsal(listOf(morris, laMatanza, rawson, rosario))
+
+    describe("puedeTrabajarEn") {
+      it("una ciudad donde tiene sucursal") {
+        comercioCorresponsal.puedeTrabajarEn(rawson).shouldBeTrue()
+      }
+      it("una ciudad donde no tiene sucursal") {
+        comercioCorresponsal.puedeTrabajarEn(sanIgnacio).shouldBeFalse()
+      }
+    }
+
+    describe("esInfluyente") {
+      it("cantidad de provincias en las que tiene sucursal") {
+        comercioCorresponsal.esInfluyente().shouldBeTrue()
+      }
+    }
+  }
+
 })
