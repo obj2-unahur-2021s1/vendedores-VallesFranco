@@ -77,7 +77,7 @@ class CentroDeDistribucionTest : DescribeSpec({
 
         describe("vendedoresGenericos") {
             it("Comprobando con los vendedores que tiene de base") {
-                    centroDeDistribucion1.vendedoresGenericos().shouldNotContain(vendedorFijo1)
+                centroDeDistribucion1.vendedoresGenericos().shouldNotContain(vendedorFijo1)
             }
         }
 
